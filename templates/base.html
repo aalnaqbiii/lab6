@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Pocket Notes{% endblock %} · Pocket Notes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">P</span> Pocket Notes</a>
+  <nav>{% if g.user %}<span class="hello">Hi, {{ g.user.username }}</span><a href="{{ url_for('notes') }}">My notes</a><form action="{{ url_for('logout') }}" method="post" class="inline">{{ csrf_token() }}<button class="link-button">Sign out</button></form>{% else %}<a href="{{ url_for('login') }}">Sign in</a><a class="nav-cta" href="{{ url_for('register') }}">Create account</a>{% endif %}</nav>
+</header>
+<main class="shell">
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<section class="alerts" aria-live="polite">{% for category, message in messages %}<p class="alert {{ category }}">{{ message }}</p>{% endfor %}</section>{% endif %}{% endwith %}
+  {% block content %}{% endblock %}
+</main>
+<footer>Private notes, saved to your own account.</footer>
+</body></html>
